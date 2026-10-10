@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#7D53F6" />
+    <title>Lumina — AI portal for smart learning</title>
+    <link rel="stylesheet" href="/static/css/portal.css" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237D53F6'/%3E%3Cpath d='M10 8.5v15h12' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  </head>
+  <body class="site">
+    <div class="rule" aria-hidden="true"></div>
+    <header class="nav">
+      <a class="brand" href="#top">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="22" height="22">
+            <path d="M10 8.5v15h12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        Lumina
+      </a>
+      <nav class="links" aria-label="Page">
+        <a href="#method">Method</a>
+        <a href="#library">Library</a>
+        <a href="#studio">Studio</a>
+      </nav>
+      <div class="nav-end">
+        <!--ACCOUNT-->
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">AI portal · smart learning</p>
+          <h1>Learn the next idea, then prove you have it.</h1>
+          <p class="lede">
+            Lumina drafts a short path from a question you actually have:
+            the idea, one thing to try, and a check so it stays.
+          </p>
+          <form id="ask" class="ask" action="/api/guide" method="post">
+            <label class="sr" for="query">What do you want to learn?</label>
+            <input
+              id="query"
+              name="query"
+              type="text"
+              maxlength="180"
+              placeholder="What do you want to learn?"
+              autocomplete="off"
+            />
+            <button class="btn btn-solid" type="submit">Draft a path</button>
+          </form>
+          <div class="chips">
+            <!--SUGGESTIONS-->
+          </div>
+          <p class="hint" id="hint" role="status"></p>
+          <article class="plan" id="plan" hidden></article>
+        </div>
+
+        <aside class="session" aria-label="A session in progress">
+          <div class="session-top">
+            <span class="live">In session</span>
+            <span>Python · loops</span>
+          </div>
+          <p class="session-kicker">Concept</p>
+          <p class="session-line">A loop visits each item once. An empty list means the body never runs.</p>
+          <div class="exchange">
+            <p class="who">You</p>
+            <p>So the name only exists while the loop is walking.</p>
+          </div>
+          <div class="exchange tutor">
+            <p class="who">Tutor</p>
+            <p>Close. After the loop, ask what that name still points at — then run it.</p>
+          </div>
+          <div class="meter">
+            <div class="meter-row">
+              <span>Concept held</span>
+              <span>2 of 3</span>
+            </div>
+            <div class="track" aria-hidden="true"><span style="width: 66%"></span></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="method" id="method">
+        <div class="section-head">
+          <p class="eyebrow">The method</p>
+          <h2>Four moves, then you stop.</h2>
+        </div>
+        <ol class="steps">
+          <!--PATHS-->
+        </ol>
+      </section>
+
+      <section class="library" id="library">
+        <div class="section-head">
+          <p class="eyebrow">Library</p>
+          <h2>Open a subject.</h2>
+        </div>
+        <div class="cards">
+          <!--COURSES-->
+        </div>
+      </section>
+
+      <section class="band" id="studio">
+        <div>
+          <p class="eyebrow light">Studio</p>
+          <h2>Bring a question. Leave with a path.</h2>
+        </div>
+        <a class="btn btn-light" href="#top">Start with a question</a>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Lumina</span>
+      <span>Smart learning portal</span>
+      <span>Python</span>
+    </footer>
+    <script src="/static/js/portal.js"></script>
+  </body>
+</html>

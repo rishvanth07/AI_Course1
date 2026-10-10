@@ -1,0 +1,1061 @@
+{
+  "ada@lumina.dev": {
+    "courses": [
+      {
+        "id": "0e77930d",
+        "title": "Python loops",
+        "goal": "Understand an empty list",
+        "path": {
+          "title": "A first pass on Understand an empty list",
+          "minutes": 20,
+          "next": "A second example, slightly harder",
+          "steps": [
+            {
+              "label": "Concept",
+              "text": "Say \u201cUnderstand an empty list\u201d in one sentence a newcomer could repeat."
+            },
+            {
+              "label": "Try",
+              "text": "Do the smallest version of it once, with a real example from your own work."
+            },
+            {
+              "label": "Check",
+              "text": "Close the notes and explain it again. The missing word is the next lesson."
+            }
+          ]
+        },
+        "notes": [
+          {
+            "prompt": "What if the list is empty?",
+            "reply": {
+              "title": "Python, from first principles",
+              "minutes": 25,
+              "next": "Functions, and what they can see",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "A loop visits each item once. An empty list means the body never runs."
+                },
+                {
+                  "label": "Try",
+                  "text": "Write a loop that prints each word in a list, then run it on an empty list."
+                },
+                {
+                  "label": "Check",
+                  "text": "Say what the loop variable is after the loop ends. Then test that guess."
+                }
+              ]
+            }
+          }
+        ],
+        "quiz": {
+          "title": "A short check",
+          "questions": [
+            {
+              "prompt": "What belongs in the first step on Understand an empty list?",
+              "choices": [
+                "Say \u201cUnderstand an empty list\u201d in one sentence a newcomer could repeat.",
+                "A long definition you have not tried.",
+                "A project too big to finish today."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "A finished sitting ends when you can\u2026",
+              "choices": [
+                "Say the idea and test it once.",
+                "Highlight every paragraph.",
+                "Repeat a sentence you do not understand."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "The check is useful when it shows\u2026",
+              "choices": [
+                "The word you still cannot explain.",
+                "How fast you clicked.",
+                "How many notes you copied."
+              ],
+              "answer": 0
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "score": 2,
+            "total": 3,
+            "picks": [
+              1,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "learner@lumina.dev": {
+    "courses": [
+      {
+        "id": "bd6019ea",
+        "title": "Reading charts",
+        "goal": "See when an axis starts above zero",
+        "created": "2026-10-09",
+        "overview": "Four lessons on Reading charts, aimed at See when an axis starts above zero. Study a lesson, then take its quiz.",
+        "lessons": [
+          {
+            "id": "723f18",
+            "title": "The axis is part of the argument",
+            "minutes": 15,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "In Reading charts, the axis tells you what the marks mean. A cropped scale can make a small change look large. Your focus is See when an axis starts above zero."
+              },
+              {
+                "label": "Try",
+                "text": "Find one chart and write down what each axis measures."
+              },
+              {
+                "label": "Check",
+                "text": "If you cannot name both axes, you do not know the claim yet."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "Before you trust a chart, name\u2026",
+                "choices": [
+                  "What each axis measures.",
+                  "Only the tallest bar.",
+                  "The colors first."
+                ],
+                "answer": 0
+              },
+              {
+                "prompt": "A cropped scale can\u2026",
+                "choices": [
+                  "Make a small change look large.",
+                  "Always show the true size.",
+                  "Remove the need for an axis."
+                ],
+                "answer": 0
+              },
+              {
+                "prompt": "You do not know the claim yet when\u2026",
+                "choices": [
+                  "You cannot name both axes.",
+                  "The chart has a title.",
+                  "There are more than two bars."
+                ],
+                "answer": 0
+              }
+            ],
+            "studied": "2026-10-09",
+            "attempts": [
+              {
+                "score": 3,
+                "total": 3,
+                "picks": [
+                  0,
+                  0,
+                  0
+                ],
+                "at": "2026-10-09"
+              }
+            ]
+          },
+          {
+            "id": "6b18ae",
+            "title": "Where the scale starts",
+            "minutes": 15,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "Ask where the vertical axis starts. Zero tells a different story from a start at 90."
+              },
+              {
+                "label": "Try",
+                "text": "On your chart, write the first labeled value on the vertical axis."
+              },
+              {
+                "label": "Check",
+                "text": "Say whether that value is zero."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "The first question about the vertical axis is\u2026",
+                "choices": [
+                  "How wide the chart is.",
+                  "Where it starts.",
+                  "Which bar is purple."
+                ],
+                "answer": 1
+              },
+              {
+                "prompt": "Starting at 90 instead of 0 can\u2026",
+                "choices": [
+                  "Hide the bars.",
+                  "Make every comparison fair.",
+                  "Exaggerate a small gap."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "A scale that starts at zero\u2026",
+                "choices": [
+                  "Cannot be drawn.",
+                  "Shows the size against nothing.",
+                  "Is always misleading."
+                ],
+                "answer": 1
+              }
+            ],
+            "studied": null,
+            "attempts": []
+          },
+          {
+            "id": "e22a49",
+            "title": "Redraw from zero",
+            "minutes": 15,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "Redraw the same points with a vertical axis that starts at zero. The story that survives is the one the data can support."
+              },
+              {
+                "label": "Try",
+                "text": "Sketch the bars again from zero, keeping their values."
+              },
+              {
+                "label": "Check",
+                "text": "Did the dramatic gap survive? If it shrank, the crop was doing the work."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "Redrawing from zero tests\u2026",
+                "choices": [
+                  "Whether you can copy the title.",
+                  "Whether the bars should be horizontal.",
+                  "Whether the story survives a fair scale."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "If the dramatic gap shrinks, then\u2026",
+                "choices": [
+                  "The chart was already fair.",
+                  "The data got smaller.",
+                  "The crop was doing the work."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "The story you keep is\u2026",
+                "choices": [
+                  "The one that looked largest at first.",
+                  "The one that survives the redraw.",
+                  "Any story the title suggests."
+                ],
+                "answer": 1
+              }
+            ],
+            "studied": null,
+            "attempts": []
+          },
+          {
+            "id": "763284",
+            "title": "Say what is still true",
+            "minutes": 15,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "After the redraw, one sentence should say what is still true. That sentence is the chart\u2019s claim."
+              },
+              {
+                "label": "Try",
+                "text": "Write one sentence about See when an axis starts above zero that stays true when the axis starts at zero."
+              },
+              {
+                "label": "Check",
+                "text": "If the sentence needs the cropped axis, it is not the claim."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "The chart\u2019s claim is\u2026",
+                "choices": [
+                  "The most alarming gap on the cropped axis.",
+                  "The title, whatever it says.",
+                  "The sentence that stays true from zero."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "A sentence that needs the cropped axis\u2026",
+                "choices": [
+                  "Should be the chart title.",
+                  "Is the strongest finding.",
+                  "Is not the claim."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "How many sentences should state the claim?",
+                "choices": [
+                  "None. Leave it visual.",
+                  "One.",
+                  "One per bar."
+                ],
+                "answer": 1
+              }
+            ],
+            "studied": null,
+            "attempts": []
+          }
+        ],
+        "path": {
+          "title": "Reading a chart without the trick",
+          "minutes": 25,
+          "next": "Averages that hide a split",
+          "steps": [
+            {
+              "label": "Concept",
+              "text": "The axis is part of the argument. A cropped scale can make a small change look large."
+            },
+            {
+              "label": "Try",
+              "text": "Find one chart and write down where the vertical axis starts. Zero, or somewhere else?"
+            },
+            {
+              "label": "Check",
+              "text": "Redraw the same points from zero. Did the story survive?"
+            }
+          ]
+        },
+        "notes": [],
+        "quiz": {
+          "title": "Charts, in three questions",
+          "questions": [
+            {
+              "prompt": "Which part of a chart is part of the argument?",
+              "choices": [
+                "The axis scale.",
+                "The color of the border.",
+                "The caption font."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "A vertical axis that does not start at zero can\u2026",
+              "choices": [
+                "Make a small change look large.",
+                "Make the data more honest.",
+                "Remove the need to read the title."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "How do you test a dramatic chart?",
+              "choices": [
+                "Redraw the same points from zero.",
+                "Trust the steepest line.",
+                "Read only the title."
+              ],
+              "answer": 0
+            }
+          ]
+        },
+        "attempts": []
+      },
+      {
+        "id": "0283b7d8",
+        "title": "Python loops",
+        "goal": "Understand an empty list",
+        "path": {
+          "title": "Python, from first principles",
+          "minutes": 25,
+          "next": "Functions, and what they can see",
+          "steps": [
+            {
+              "label": "Concept",
+              "text": "A loop visits each item once. An empty list means the body never runs."
+            },
+            {
+              "label": "Try",
+              "text": "Write a loop that prints each word in a list, then run it on an empty list."
+            },
+            {
+              "label": "Check",
+              "text": "Say what the loop variable is after the loop ends. Then test that guess."
+            }
+          ]
+        },
+        "notes": [
+          {
+            "prompt": "What if the list is empty?",
+            "reply": {
+              "title": "Python, from first principles",
+              "minutes": 25,
+              "next": "Functions, and what they can see",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "A loop visits each item once. An empty list means the body never runs."
+                },
+                {
+                  "label": "Try",
+                  "text": "Write a loop that prints each word in a list, then run it on an empty list."
+                },
+                {
+                  "label": "Check",
+                  "text": "Say what the loop variable is after the loop ends. Then test that guess."
+                }
+              ]
+            }
+          },
+          {
+            "prompt": "What about the index after the loop?",
+            "reply": {
+              "title": "Python, from first principles",
+              "minutes": 25,
+              "next": "Functions, and what they can see",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "A loop visits each item once. An empty list means the body never runs."
+                },
+                {
+                  "label": "Try",
+                  "text": "Write a loop that prints each word in a list, then run it on an empty list."
+                },
+                {
+                  "label": "Check",
+                  "text": "Say what the loop variable is after the loop ends. Then test that guess."
+                }
+              ]
+            }
+          }
+        ],
+        "quiz": {
+          "title": "Loops, in three questions",
+          "questions": [
+            {
+              "prompt": "A for-loop is given an empty list. What does the body do?",
+              "choices": [
+                "It runs once.",
+                "It never runs.",
+                "Python stops the program."
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "What is worth testing after the loop ends?",
+              "choices": [
+                "What the loop variable still points at.",
+                "How many comments you added.",
+                "Whether the file is named main.py."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which session is finished?",
+              "choices": [
+                "You can say the idea and you tried it once.",
+                "You highlighted a whole chapter.",
+                "You copied an example you cannot explain."
+              ],
+              "answer": 0
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "score": 3,
+            "total": 3,
+            "picks": [
+              1,
+              0,
+              0
+            ]
+          }
+        ],
+        "lessons": [
+          {
+            "id": "d4cfae",
+            "title": "A loop visits each item once",
+            "minutes": 15,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "A loop walks a list from the first item to the last. The body runs once for each item, then stops."
+              },
+              {
+                "label": "Try",
+                "text": "In Python loops, write a loop that prints each word in a short list. Say out loud which word is next before it prints."
+              },
+              {
+                "label": "Check",
+                "text": "If the list has three words, the body runs three times. Count them."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "How many times does a loop body run?",
+                "choices": [
+                  "Forever, until you close the file.",
+                  "Once, no matter how long the list is.",
+                  "Once for each item in the list."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "A list of three words means the body\u2026",
+                "choices": [
+                  "Does not run, because words are text.",
+                  "Runs once.",
+                  "Runs three times."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "The loop stops when\u2026",
+                "choices": [
+                  "It has visited the last item.",
+                  "The first item prints.",
+                  "You add a comment."
+                ],
+                "answer": 0
+              }
+            ],
+            "studied": null,
+            "attempts": []
+          },
+          {
+            "id": "81d483",
+            "title": "The empty list",
+            "minutes": 15,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "An empty list has nothing to visit, so the body never runs. That is the useful part of \u201cUnderstand an empty list\u201d: no items means no work inside the loop."
+              },
+              {
+                "label": "Try",
+                "text": "Run the same loop on []. Watch for a print. There should be none."
+              },
+              {
+                "label": "Check",
+                "text": "Say what you expected, then what happened. If they differ, the empty case is the lesson."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "What happens when a loop meets an empty list?",
+                "choices": [
+                  "The body never runs.",
+                  "The body runs once with a blank item.",
+                  "Python fills the list for you."
+                ],
+                "answer": 0
+              },
+              {
+                "prompt": "Why is the empty list worth testing?",
+                "choices": [
+                  "It shows the body is skipped when there is nothing to visit.",
+                  "It makes the loop faster.",
+                  "It prints the word empty."
+                ],
+                "answer": 0
+              },
+              {
+                "prompt": "In this course, \u201cUnderstand an empty list\u201d points at\u2026",
+                "choices": [
+                  "How to sort a long list.",
+                  "What the loop does when there are no items.",
+                  "How to install Python."
+                ],
+                "answer": 1
+              }
+            ],
+            "studied": null,
+            "attempts": []
+          },
+          {
+            "id": "9594d2",
+            "title": "The name after the loop",
+            "minutes": 15,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "The loop variable keeps the last item it was given. If the body never ran, that name was never set by the loop."
+              },
+              {
+                "label": "Try",
+                "text": "After a loop over three words, print the loop variable. Then try the same after an empty list and notice the difference."
+              },
+              {
+                "label": "Check",
+                "text": "Guess the value first. Run it second. The guess is the point."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "After a loop over three words, the loop variable holds\u2026",
+                "choices": [
+                  "The last word.",
+                  "The first word.",
+                  "The number 3."
+                ],
+                "answer": 0
+              },
+              {
+                "prompt": "If the body never ran, the loop variable\u2026",
+                "choices": [
+                  "Holds every item at once.",
+                  "Was not set by the loop.",
+                  "Becomes an empty string automatically."
+                ],
+                "answer": 1
+              },
+              {
+                "prompt": "The useful order is\u2026",
+                "choices": [
+                  "Guess, then run the code.",
+                  "Run the code, then invent a reason.",
+                  "Skip the empty list."
+                ],
+                "answer": 0
+              }
+            ],
+            "studied": null,
+            "attempts": []
+          },
+          {
+            "id": "09e0b0",
+            "title": "Hand the list to a function",
+            "minutes": 20,
+            "sections": [
+              {
+                "label": "Concept",
+                "text": "A function can take the list as a parameter. The loop inside sees that list, not some other list with the same idea."
+              },
+              {
+                "label": "Try",
+                "text": "Write a function that prints each item. Call it once with words and once with an empty list."
+              },
+              {
+                "label": "Check",
+                "text": "Point at the parameter and say which list it is on each call."
+              }
+            ],
+            "quiz": [
+              {
+                "prompt": "What does the loop inside the function walk?",
+                "choices": [
+                  "Only lists that are not empty.",
+                  "Every list in the file.",
+                  "The list that was passed in."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "Two calls, one with words and one with [], should\u2026",
+                "choices": [
+                  "Refuse the empty list.",
+                  "Print the words twice.",
+                  "Print the words, then print nothing."
+                ],
+                "answer": 2
+              },
+              {
+                "prompt": "You understand the function when you can\u2026",
+                "choices": [
+                  "Spell the function name.",
+                  "Say which list the parameter holds on each call.",
+                  "Add more arguments until it looks finished."
+                ],
+                "answer": 1
+              }
+            ],
+            "studied": null,
+            "attempts": []
+          }
+        ],
+        "overview": "Four lessons on Python loops, aimed at Understand an empty list. Study a lesson, then take its quiz."
+      }
+    ]
+  },
+  "rish@gmail.com": {
+    "courses": [
+      {
+        "id": "f01684ce",
+        "title": "DMBS",
+        "goal": "",
+        "created": "2026-10-09",
+        "path": {
+          "title": "A first pass on DMBS",
+          "minutes": 20,
+          "next": "A second example, slightly harder",
+          "steps": [
+            {
+              "label": "Concept",
+              "text": "Say \u201cDMBS\u201d in one sentence a newcomer could repeat."
+            },
+            {
+              "label": "Try",
+              "text": "Do the smallest version of it once, with a real example from your own work."
+            },
+            {
+              "label": "Check",
+              "text": "Close the notes and explain it again. The missing word is the next lesson."
+            }
+          ]
+        },
+        "notes": [],
+        "quiz": {
+          "title": "A short check",
+          "questions": [
+            {
+              "prompt": "What belongs in the first step on DMBS?",
+              "choices": [
+                "Say \u201cDMBS\u201d in one sentence a newcomer could repeat.",
+                "A long definition you have not tried.",
+                "A project too big to finish today."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "A finished sitting ends when you can\u2026",
+              "choices": [
+                "Say the idea and test it once.",
+                "Highlight every paragraph.",
+                "Repeat a sentence you do not understand."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "The check is useful when it shows\u2026",
+              "choices": [
+                "The word you still cannot explain.",
+                "How fast you clicked.",
+                "How many notes you copied."
+              ],
+              "answer": 0
+            }
+          ]
+        },
+        "attempts": []
+      },
+      {
+        "id": "7cda9ce8",
+        "title": "vuewiovpwq",
+        "goal": "inqp",
+        "path": {
+          "title": "A first pass on vuewiovpwq inqp",
+          "minutes": 20,
+          "next": "A second example, slightly harder",
+          "steps": [
+            {
+              "label": "Concept",
+              "text": "Say \u201cvuewiovpwq inqp\u201d in one sentence a newcomer could repeat."
+            },
+            {
+              "label": "Try",
+              "text": "Do the smallest version of it once, with a real example from your own work."
+            },
+            {
+              "label": "Check",
+              "text": "Close the notes and explain it again. The missing word is the next lesson."
+            }
+          ]
+        },
+        "notes": [
+          {
+            "prompt": "gne",
+            "reply": {
+              "title": "A first pass on vuewiovpwq inqp gne",
+              "minutes": 20,
+              "next": "A second example, slightly harder",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "Say \u201cvuewiovpwq inqp gne\u201d in one sentence a newcomer could repeat."
+                },
+                {
+                  "label": "Try",
+                  "text": "Do the smallest version of it once, with a real example from your own work."
+                },
+                {
+                  "label": "Check",
+                  "text": "Close the notes and explain it again. The missing word is the next lesson."
+                }
+              ]
+            }
+          },
+          {
+            "prompt": "quize",
+            "reply": {
+              "title": "A first pass on vuewiovpwq inqp quize",
+              "minutes": 20,
+              "next": "A second example, slightly harder",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "Say \u201cvuewiovpwq inqp quize\u201d in one sentence a newcomer could repeat."
+                },
+                {
+                  "label": "Try",
+                  "text": "Do the smallest version of it once, with a real example from your own work."
+                },
+                {
+                  "label": "Check",
+                  "text": "Close the notes and explain it again. The missing word is the next lesson."
+                }
+              ]
+            }
+          }
+        ],
+        "quiz": {
+          "title": "A short check",
+          "questions": [
+            {
+              "prompt": "What belongs in the first step on vuewiovpwq inqp?",
+              "choices": [
+                "Say \u201cvuewiovpwq inqp\u201d in one sentence a newcomer could repeat.",
+                "A long definition you have not tried.",
+                "A project too big to finish today."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "A finished sitting ends when you can\u2026",
+              "choices": [
+                "Say the idea and test it once.",
+                "Highlight every paragraph.",
+                "Repeat a sentence you do not understand."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "The check is useful when it shows\u2026",
+              "choices": [
+                "The word you still cannot explain.",
+                "How fast you clicked.",
+                "How many notes you copied."
+              ],
+              "answer": 0
+            }
+          ]
+        },
+        "attempts": []
+      }
+    ]
+  },
+  "fewfew@giocd.com": {
+    "courses": [
+      {
+        "id": "44a97acf",
+        "title": "Python loops",
+        "goal": "Empty lists and loops",
+        "path": {
+          "title": "Python, from first principles",
+          "minutes": 25,
+          "next": "Functions, and what they can see",
+          "steps": [
+            {
+              "label": "Concept",
+              "text": "A loop visits each item once. An empty list means the body never runs."
+            },
+            {
+              "label": "Try",
+              "text": "Write a loop that prints each word in a list, then run it on an empty list."
+            },
+            {
+              "label": "Check",
+              "text": "Say what the loop variable is after the loop ends. Then test that guess."
+            }
+          ]
+        },
+        "notes": [
+          {
+            "prompt": "gnwoegow",
+            "reply": {
+              "title": "Python, from first principles",
+              "minutes": 25,
+              "next": "Functions, and what they can see",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "A loop visits each item once. An empty list means the body never runs."
+                },
+                {
+                  "label": "Try",
+                  "text": "Write a loop that prints each word in a list, then run it on an empty list."
+                },
+                {
+                  "label": "Check",
+                  "text": "Say what the loop variable is after the loop ends. Then test that guess."
+                }
+              ]
+            }
+          }
+        ],
+        "quiz": {
+          "title": "Loops, in three questions",
+          "questions": [
+            {
+              "prompt": "A for-loop is given an empty list. What does the body do?",
+              "choices": [
+                "It runs once.",
+                "It never runs.",
+                "Python stops the program."
+              ],
+              "answer": 1
+            },
+            {
+              "prompt": "What is worth testing after the loop ends?",
+              "choices": [
+                "What the loop variable still points at.",
+                "How many comments you added.",
+                "Whether the file is named main.py."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "Which session is finished?",
+              "choices": [
+                "You can say the idea and you tried it once.",
+                "You highlighted a whole chapter.",
+                "You copied an example you cannot explain."
+              ],
+              "answer": 0
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "score": 0,
+            "total": 3,
+            "picks": [
+              2,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "rish@gmail.come": {
+    "courses": [
+      {
+        "id": "60565984",
+        "title": "DBMS",
+        "goal": "",
+        "created": "2026-10-09",
+        "path": {
+          "title": "A first pass on DBMS",
+          "minutes": 20,
+          "next": "A second example, slightly harder",
+          "steps": [
+            {
+              "label": "Concept",
+              "text": "Say \u201cDBMS\u201d in one sentence a newcomer could repeat."
+            },
+            {
+              "label": "Try",
+              "text": "Do the smallest version of it once, with a real example from your own work."
+            },
+            {
+              "label": "Check",
+              "text": "Close the notes and explain it again. The missing word is the next lesson."
+            }
+          ]
+        },
+        "notes": [
+          {
+            "prompt": "quiz",
+            "reply": {
+              "title": "A first pass on DBMS quiz",
+              "minutes": 20,
+              "next": "A second example, slightly harder",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "Say \u201cDBMS quiz\u201d in one sentence a newcomer could repeat."
+                },
+                {
+                  "label": "Try",
+                  "text": "Do the smallest version of it once, with a real example from your own work."
+                },
+                {
+                  "label": "Check",
+                  "text": "Close the notes and explain it again. The missing word is the next lesson."
+                }
+              ]
+            },
+            "at": "2026-10-09"
+          },
+          {
+            "prompt": "DBMS quiz",
+            "reply": {
+              "title": "A first pass on DBMS DBMS quiz",
+              "minutes": 20,
+              "next": "A second example, slightly harder",
+              "steps": [
+                {
+                  "label": "Concept",
+                  "text": "Say \u201cDBMS DBMS quiz\u201d in one sentence a newcomer could repeat."
+                },
+                {
+                  "label": "Try",
+                  "text": "Do the smallest version of it once, with a real example from your own work."
+                },
+                {
+                  "label": "Check",
+                  "text": "Close the notes and explain it again. The missing word is the next lesson."
+                }
+              ]
+            },
+            "at": "2026-10-09"
+          }
+        ],
+        "quiz": {
+          "title": "A short check",
+          "questions": [
+            {
+              "prompt": "What belongs in the first step on DBMS?",
+              "choices": [
+                "Say \u201cDBMS\u201d in one sentence a newcomer could repeat.",
+                "A long definition you have not tried.",
+                "A project too big to finish today."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "A finished sitting ends when you can\u2026",
+              "choices": [
+                "Say the idea and test it once.",
+                "Highlight every paragraph.",
+                "Repeat a sentence you do not understand."
+              ],
+              "answer": 0
+            },
+            {
+              "prompt": "The check is useful when it shows\u2026",
+              "choices": [
+                "The word you still cannot explain.",
+                "How fast you clicked.",
+                "How many notes you copied."
+              ],
+              "answer": 0
+            }
+          ]
+        },
+        "attempts": []
+      }
+    ]
+  }
+}
