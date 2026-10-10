@@ -85,24 +85,48 @@ if (root && exam) {
     startButton.disabled = !(bankReady && cameraLive());
   }
 
-  const prepIdle = prepText ? prepText.textContent : "";
+  const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   async function prepareQuestions() {
     prep.classList.remove("is-failed");
     prepRetry.hidden = true;
-    prepText.textContent = prepIdle;
-    try {
-      const response = await fetch(root.dataset.prepare, { method: "POST" });
-      const data = await response.json().catch(() => ({}));
-      if (response.ok && data.ok) {
-        window.location.reload();
+    let failures = 0;
+    let saved = 0;
+    let total = 0;
+    while (true) {
+      let data = {};
+      try {
+        const response = await fetch(root.dataset.prepare, { method: "POST" });
+        data = await response.json().catch(() => ({}));
+        if (response.ok && data.ok) {
+          if (data.ready) {
+            window.location.reload();
+            return;
+          }
+          failures = 0;
+          saved = data.count;
+          total = data.total;
+          prepText.textContent = `Preparing ${total} questions for this lesson (${saved} ready)…`;
+          continue;
+        }
+        throw new Error(data.error || "The question set could not be prepared.");
+      } catch (error) {
+        if (typeof data.count === "number") {
+          saved = data.count;
+          total = data.total;
+        }
+        failures += 1;
+        if (failures < 3) {
+          prepText.textContent = `Gemini is busy. Retrying in a few seconds${total ? ` (${saved} of ${total} ready)` : ""}…`;
+          await pause(4000 * failures);
+          continue;
+        }
+        const kept = saved ? ` ${saved} of ${total} questions are saved; trying again continues from there.` : "";
+        prep.classList.add("is-failed");
+        prepText.textContent = `${error.message.replace(/ Try again\.?$/, "")}${kept}`;
+        prepRetry.hidden = false;
         return;
       }
-      throw new Error(data.error || "The question set could not be prepared.");
-    } catch (error) {
-      prep.classList.add("is-failed");
-      prepText.textContent = `${error.message.replace(/ Try again\.?$/, "")} Try again to prepare the questions.`;
-      prepRetry.hidden = false;
     }
   }
 

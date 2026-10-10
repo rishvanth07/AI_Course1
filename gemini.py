@@ -3,18 +3,16 @@
 import json
 import os
 import random
-import re
 import time
 import urllib.error
 import urllib.request
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from questions import available_languages, clean
 
 ROOT = Path(__file__).resolve().parent
-MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash")
-ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
+DEFAULT_MODEL = "gemini-3.5-flash"
+DEFAULT_FALLBACKS = "gemini-3.6-flash,gemini-3.5-flash-lite"
 
 PLAN_SCHEMA = {
     "type": "OBJECT",
@@ -149,66 +147,26 @@ def draft_lessons(title: str, goal: str) -> tuple[str, list[dict]]:
     return _plan(payload, title, focus)
 
 
-ASSESSMENT_BATCHES = [
-    (
-        {"single": 7, "truefalse": 3, "multi": 2, "fill": 3, "match": 1},
-        "the core of the lesson: definitions, key facts, terminology, and how the parts relate",
-    ),
-    (
-        {"single": 7, "truefalse": 3, "multi": 2, "fill": 2, "match": 1, "code": 1},
-        "applying the lesson: short scenarios, worked examples, comparisons, and common beginner mistakes",
-    ),
+ASSESSMENT_ANGLES = [
+    "the core of the lesson: definitions, key facts, terminology, and how the parts relate",
+    "applying the lesson: short scenarios, worked examples, comparisons, and common beginner mistakes",
+    "details and edge cases a careful learner would notice, and parts of the lesson not covered yet",
 ]
 
 
-def draft_assessment(course: dict, lesson: dict, count: int = 30) -> list[dict]:
-    """At least `count` questions: two batches written in parallel, then a top-up if some were unusable."""
+def draft_questions(course: dict, lesson: dict, mix: dict, avoid: list[str], part: int = 0) -> list[dict]:
+    """One small chunk of assessment questions in the given mix, e.g. {"single": 4, "truefalse": 2}."""
     key = api_key()
     if not key:
         raise GeminiError("Add GEMINI_API_KEY to a .env file in the project, then try again.")
-    questions: list[dict] = []
-    seen: set[str] = set()
-
-    def keep(payload) -> None:
-        if not isinstance(payload, dict):
-            return
-        for item in _assessment_items(payload):
-            question = clean(item)
-            if not question:
-                continue
-            fingerprint = re.sub(r"\W+", " ", question["prompt"].lower()).strip()
-            if fingerprint not in seen:
-                seen.add(fingerprint)
-                questions.append(question)
-
-    errors = []
-    with ThreadPoolExecutor(max_workers=len(ASSESSMENT_BATCHES)) as pool:
-        jobs = [
-            pool.submit(_assessment_batch, key, course, lesson, mix, angle, [])
-            for mix, angle in ASSESSMENT_BATCHES
-        ]
-        for job in jobs:
-            try:
-                keep(job.result())
-            except GeminiError as exc:
-                errors.append(exc)
-    if errors and not questions:
-        raise errors[0]
-    missing = count - len(questions)
-    if missing > 0:
-        mix = {"single": missing - missing // 3 + 2, "truefalse": missing // 3 + 1}
-        avoid = [question["prompt"][:140] for question in questions]
-        try:
-            keep(_assessment_batch(key, course, lesson, mix, "any part of the lesson not covered yet", avoid))
-        except GeminiError:
-            pass
-    if len(questions) < count:
-        raise GeminiError(
-            f"Gemini returned only {len(questions)} usable questions; an assessment needs {count}. Try again."
-        )
-    objective = [question for question in questions if question["type"] != "code"]
-    random.shuffle(objective)
-    return objective + [question for question in questions if question["type"] == "code"]
+    angle = ASSESSMENT_ANGLES[part % len(ASSESSMENT_ANGLES)]
+    payload = _assessment_batch(key, course, lesson, mix, angle, avoid)
+    if not isinstance(payload, dict):
+        raise GeminiError("Gemini returned a question set Lumina could not use. Try again.")
+    questions = [question for question in (clean(item) for item in _assessment_items(payload)) if question]
+    if not questions:
+        raise GeminiError("Gemini returned a question set Lumina could not use. Try again.")
+    return questions
 
 
 def _assessment_batch(key: str, course: dict, lesson: dict, mix: dict, angle: str, avoid: list[str]) -> dict:
@@ -279,8 +237,8 @@ def _assessment_batch(key: str, course: dict, lesson: dict, mix: dict, angle: st
         "'none of the above'; every question tests a different idea or detail; stay within what a beginner "
         "could learn from this lesson and the basic background it relies on."
     )
-    tokens = 12288 if mix.get("code") else 8192
-    return _generate(key, prompt, ASSESSMENT_SCHEMA, "a question set", timeout=150, max_tokens=tokens, retries=3)
+    tokens = 8192 if mix.get("code") else 6144
+    return _generate(key, prompt, ASSESSMENT_SCHEMA, "a question set", timeout=90, max_tokens=tokens, retries=1)
 
 
 def explain_attempt(course: dict, lesson: dict, misses: list[dict], score: str) -> dict:
@@ -469,10 +427,36 @@ def _generate_text(key: str, contents: list[dict], system: str) -> str:
     return _clip(_candidate_text(parsed), 2500)
 
 
+class _Busy(GeminiError):
+    """This model can't answer right now; another model might."""
+
+
+def models() -> list[str]:
+    load_env()
+    primary = os.environ.get("GEMINI_MODEL", "").strip() or DEFAULT_MODEL
+    fallbacks = os.environ.get("GEMINI_FALLBACK_MODELS", DEFAULT_FALLBACKS)
+    return list(dict.fromkeys([primary, *(name.strip() for name in fallbacks.split(",") if name.strip())]))
+
+
 def _post(key: str, body: dict, timeout: int = 60, retries: int = 1) -> dict:
+    """Ask the main model, moving down the fallback list while models are busy; retry the list `retries` times."""
+    data = json.dumps(body).encode()
+    busy = None
+    for attempt in range(retries + 1):
+        if attempt:
+            time.sleep(3 + random.random() * 4)
+        for model in models():
+            try:
+                return _post_once(model, key, data, timeout)
+            except _Busy as exc:
+                busy = exc
+    raise GeminiError(str(busy))
+
+
+def _post_once(model: str, key: str, data: bytes, timeout: int) -> dict:
     request = urllib.request.Request(
-        ENDPOINT,
-        data=json.dumps(body).encode(),
+        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+        data=data,
         headers={
             "Content-Type": "application/json",
             "x-goog-api-key": key,
@@ -484,23 +468,22 @@ def _post(key: str, body: dict, timeout: int = 60, retries: int = 1) -> dict:
             raw = response.read().decode()
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", "replace")
-        if exc.code in (500, 503) and retries > 0:
-            time.sleep(3 + random.random() * 4)
-            return _post(key, body, timeout, retries - 1)
         if exc.code == 429:
-            raise GeminiError(
+            raise _Busy(
                 "The Gemini API key has reached its usage limit. Wait a while, or check the key's plan and billing."
             ) from exc
+        if exc.code in (404, 500, 503):
+            raise _Busy(_error_message(detail) or "Gemini is busy right now. Try again in a moment.") from exc
         message = _error_message(detail) or "Gemini could not answer."
         raise GeminiError(message) from exc
     except urllib.error.URLError as exc:
         raise GeminiError("Gemini could not be reached. Try again in a moment.") from exc
     except (TimeoutError, OSError) as exc:
-        raise GeminiError("Gemini took too long to answer. Try again in a moment.") from exc
+        raise _Busy("Gemini took too long to answer. Try again in a moment.") from exc
     try:
         return json.loads(raw)
     except json.JSONDecodeError as exc:
-        raise GeminiError("Gemini could not answer. Try again.") from exc
+        raise _Busy("Gemini could not answer. Try again.") from exc
 
 
 def _candidate_text(parsed: dict) -> str:

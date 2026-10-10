@@ -4,6 +4,7 @@
 import hashlib
 import hmac
 import json
+import random
 import re
 import secrets
 import threading
@@ -16,7 +17,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, quote, urlparse
 
 from db import create_account, init_db, read_account, read_user, session_secret, update_user
-from gemini import GeminiError, discuss, draft_assessment, draft_lessons, explain_attempt
+from gemini import GeminiError, discuss, draft_lessons, draft_questions, explain_attempt
 from questions import (
     BLANK,
     LABELS,
@@ -1360,6 +1361,10 @@ def plan_side_html(course: dict) -> str:
 ASSESS_WARNING_LIMIT = 3
 ASSESS_PASS_PERCENT = 70
 ASSESS_QUESTION_COUNT = 30
+ASSESS_CHUNK = 12
+ASSESS_MIX = {"single": 13, "truefalse": 6, "multi": 4, "fill": 4, "match": 2, "code": 1}
+PREPARE_LOCKS: dict[tuple[str, str, int], threading.Lock] = {}
+PREPARE_GUARD = threading.Lock()
 ASSESS_FLAGS = {
     "tab": "Switched tab or window",
     "fullscreen": "Left full screen",
@@ -1419,6 +1424,55 @@ def certificate_side_html(course: dict) -> str:
 def bank_ready(lesson: dict) -> bool:
     bank = lesson.get("assessment") or []
     return len(bank) >= ASSESS_QUESTION_COUNT and all(question.get("type") in TYPES for question in bank)
+
+
+def bank_progress(lesson: dict) -> list[dict]:
+    """The usable part of a question bank that is still being built up to ASSESS_QUESTION_COUNT."""
+    bank = lesson.get("assessment") or []
+    return bank if all(question.get("type") in TYPES for question in bank) else []
+
+
+def next_chunk(bank: list[dict]) -> dict[str, int]:
+    """Question types for the next request: whatever the target mix still lacks, at most ASSESS_CHUNK."""
+    have: dict[str, int] = {}
+    for question in bank:
+        have[kind_of(question)] = have.get(kind_of(question), 0) + 1
+    room = min(ASSESS_CHUNK, max(ASSESS_QUESTION_COUNT - len(bank) + 2, 6))
+    mix: dict[str, int] = {}
+    if not have.get("code") and len(bank) < ASSESS_CHUNK:
+        mix["code"] = 1
+        room -= 1
+    lacking = {kind: ASSESS_MIX[kind] - have.get(kind, 0) for kind in ASSESS_MIX if kind != "code"}
+    while room > 0 and any(left > 0 for left in lacking.values()):
+        for kind in lacking:
+            if room > 0 and lacking[kind] > 0:
+                mix[kind] = mix.get(kind, 0) + 1
+                lacking[kind] -= 1
+                room -= 1
+    if room > 0:
+        mix["single"] = mix.get("single", 0) + room - room // 3
+        mix["truefalse"] = mix.get("truefalse", 0) + room // 3
+    return {kind: count for kind, count in mix.items() if count}
+
+
+def prompt_key(question: dict) -> str:
+    return re.sub(r"\W+", " ", str(question.get("prompt") or "").lower()).strip()
+
+
+def add_to_bank(bank: list[dict], questions: list[dict]) -> list[dict]:
+    seen = {prompt_key(question) for question in bank}
+    merged = list(bank)
+    for question in questions:
+        if len(merged) >= ASSESS_QUESTION_COUNT and kind_of(question) != "code":
+            continue
+        if prompt_key(question) not in seen:
+            seen.add(prompt_key(question))
+            merged.append(question)
+    if len(merged) >= ASSESS_QUESTION_COUNT:
+        objective = [question for question in merged if kind_of(question) != "code"]
+        random.shuffle(objective)
+        merged = objective + [question for question in merged if kind_of(question) == "code"]
+    return merged
 
 
 def assessment_questions(lesson: dict) -> list[dict]:
@@ -1571,7 +1625,8 @@ def render_assessment(course: dict, index: int, error: str = "") -> str:
     prepare_note = (
         '<div class="as-prep" id="prep" role="status">'
         '<span class="spinner" aria-hidden="true"></span>'
-        f'<p id="prep-text">Preparing {ASSESS_QUESTION_COUNT} questions for this lesson. This can take a minute or two…</p>'
+        f'<p id="prep-text">Preparing {ASSESS_QUESTION_COUNT} questions for this lesson '
+        f"({min(len(bank_progress(lesson)), ASSESS_QUESTION_COUNT)} ready)…</p>"
         '<button type="button" class="btn btn-ghost" id="prep-retry" hidden>Try again</button>'
         "</div>"
         if preparing
@@ -2476,25 +2531,51 @@ class Handler(BaseHTTPRequestHandler):
             if course is None or index >= len(course.get("lessons") or []):
                 self._send_json(404, {"error": "That lesson is not on your desk."})
                 return
-            lesson = course["lessons"][index]
-            if bank_ready(lesson):
-                self._send_json(200, {"ok": True, "count": len(lesson["assessment"])})
-                return
-            try:
-                questions = draft_assessment(course, lesson, ASSESS_QUESTION_COUNT)
-            except GeminiError as exc:
-                self._send_json(502, {"error": str(exc)})
-                return
+            with PREPARE_GUARD:
+                lock = PREPARE_LOCKS.setdefault((email, course_id, index), threading.Lock())
+            with lock:
+                lesson = find_course(read_user(email), course_id)["lessons"][index]
+                bank = bank_progress(lesson)
+                if not bank_ready(lesson):
+                    try:
+                        questions = draft_questions(
+                            course,
+                            lesson,
+                            next_chunk(bank),
+                            [question["prompt"][:140] for question in bank],
+                            part=len(bank) // ASSESS_CHUNK,
+                        )
+                    except GeminiError as exc:
+                        self._send_json(502, {"error": str(exc), "count": len(bank), "total": ASSESS_QUESTION_COUNT})
+                        return
+                    before = len(bank)
+                    bank = add_to_bank(bank, questions)
+                    if len(bank) == before:
+                        self._send_json(
+                            502,
+                            {
+                                "error": "Gemini only repeated questions this lesson already has. Try again.",
+                                "count": before,
+                                "total": ASSESS_QUESTION_COUNT,
+                            },
+                        )
+                        return
 
-            def store(found: dict) -> None:
-                current = find_course(found, course_id)
-                if current is None or index >= len(current.get("lessons") or []):
-                    return
-                if not bank_ready(current["lessons"][index]):
-                    current["lessons"][index]["assessment"] = questions
+                    def store(found: dict) -> None:
+                        current = find_course(found, course_id)
+                        if current is not None and index < len(current.get("lessons") or []):
+                            current["lessons"][index]["assessment"] = bank
 
-            update_user(email, store)
-            self._send_json(200, {"ok": True, "count": len(questions)})
+                    update_user(email, store)
+            self._send_json(
+                200,
+                {
+                    "ok": True,
+                    "count": len(bank),
+                    "total": ASSESS_QUESTION_COUNT,
+                    "ready": len(bank) >= ASSESS_QUESTION_COUNT,
+                },
+            )
             return
 
         cert_match = CERTIFICATE_RE.fullmatch(path)
